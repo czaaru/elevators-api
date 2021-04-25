@@ -8,11 +8,11 @@ export const getElevators = () => getState().elevators;
 
 export const createElevator = (
   currentFloor = 0,
-  destinationFloor = 0,
+  destinations: number[] = [],
   direction = 0,
 ): Elevator => ({
   currentFloor,
-  destinationFloor,
+  destinations,
   direction,
 });
 
@@ -50,7 +50,7 @@ export const addElevator = (id: number) => {
 export const updateElevators = (
   id: number,
   currentFloor: number,
-  destinationFloor: number,
+  destinations: number[],
 ) => {
   const elevators = getElevators();
   if (!elevators[id]) {
@@ -60,7 +60,7 @@ export const updateElevators = (
   const { elevators: updatedElevators } = updateState({
     elevators: {
       ...elevators,
-      [id]: createElevator(currentFloor, destinationFloor),
+      [id]: createElevator(currentFloor, destinations),
     },
   });
 

@@ -6,7 +6,7 @@ export enum Direction {
 
 export interface Elevator {
   currentFloor: number;
-  destinationFloor: number;
+  destinations: number[];
   direction: Direction;
 }
 
