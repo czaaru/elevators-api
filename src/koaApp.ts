@@ -10,7 +10,7 @@ import { initializeElevators } from './simulation';
 const LOG = getLogger(__filename);
 const config = getConfig();
 
-export const startService = () => {
+export const startService = (appConfig = config) => {
   initializeState({ elevators: initializeElevators() });
   const app = new Koa();
 
@@ -18,8 +18,8 @@ export const startService = () => {
   app.use(bodyParser());
   app.use(router.routes());
   app.use(router.allowedMethods());
-  app.listen(config.port);
-  LOG.info('Listening on port %s.', config.port);
+  app.listen(appConfig.port);
+  LOG.info('Listening on port %s.', appConfig.port);
 
   return app;
 };

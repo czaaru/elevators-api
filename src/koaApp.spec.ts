@@ -1,42 +1,37 @@
+import { getState } from './state';
 import { startService } from './koaApp';
 
 jest.mock('koa');
 
-const setServerPortEnv = (port: string) => {
-  const originalServerPort = process.env.PORT;
-
-  process.env.PORT = port;
-
-  return () => {
-    process.env.PORT = originalServerPort;
-  };
-};
-
-const deleteServerPortEnv = () => {
-  const originalServerPort = process.env.PORT;
-
-  delete process.env.PORT;
-
-  return () => {
-    process.env.PORT = originalServerPort;
-  };
-};
-
 describe('Koa app', () => {
-  it('should set the port if PORT is set', () => {
-    const port = '5000';
-    const cleanup = setServerPortEnv(port);
-    const app = startService();
-    expect(app.listen).toHaveBeenCalledWith(port);
+  const defaultConfig = {
+    port: 4000,
+    initialElevatorCount: 2,
+  };
+  it('should listen on a port', () => {
+    const config = { ...defaultConfig };
+    const app = startService(config);
 
-    cleanup();
+    expect(app.listen).toHaveBeenCalledWith(config.port);
   });
 
-  it('should not set the port if PORT is not set', () => {
-    const cleanup = deleteServerPortEnv();
-    const app = startService();
-    expect(app.listen).not.toHaveBeenCalled();
+  it('should initialize state', () => {
+    const config = { ...defaultConfig };
+    startService(config);
 
-    cleanup();
+    expect(getState()).toEqual({
+      elevators: {
+        '0': {
+          currentFloor: 0,
+          destinations: [],
+          direction: 0,
+        },
+        '1': {
+          currentFloor: 0,
+          destinations: [],
+          direction: 0,
+        },
+      },
+    });
   });
 });
