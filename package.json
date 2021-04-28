@@ -8,7 +8,9 @@
     "build:watch": "yarn build --watch",
     "build": "yarn clean && tsc --project ./tsconfig-build.json",
     "start": "NODE_PATH=build node build",
-    "start:watch": "yarn build && nodemon --watch build --delay 1s --exec 'yarn start' & yarn build:watch"
+    "start:watch": "yarn build && nodemon --watch build --delay 1s --exec 'yarn start' & yarn build:watch",
+    "typecheck": "tsc --noEmit",
+    "postinstall": "husky install"
   },
   "devDependencies": {
     "@commitlint/cli": "^12.1.1",
