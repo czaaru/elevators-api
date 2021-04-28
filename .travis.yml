@@ -3,12 +3,6 @@ cache:
   directories:
     - node_modules
 
-stages:
-  - test
-
-jobs:
-  include:
-    - stage: test
-      script: yarn jest
-    - stage: typecheck
-      script: yarn typecheck
+script:
+  - yarn jest
+  - yarn typecheck
